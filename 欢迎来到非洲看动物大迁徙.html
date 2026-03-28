@@ -1,0 +1,977 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
+    <title>东非动物大迁徙 · 育新学子专属规划 | 富饶与现实的非洲</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        }
+        body {
+            background: #f4efe8;
+            color: #2c3e4f;
+            padding: 25px 20px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .container {
+            max-width: 1300px;
+            width: 100%;
+            margin: 0 auto;
+        }
+        /* 头部 */
+        header {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+        h1 {
+            font-size: 2.2rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #b37b4c, #dba570);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: inline-block;
+            border-bottom: 5px solid #f3c693;
+            padding-bottom: 10px;
+            letter-spacing: 1px;
+        }
+        @media (max-width: 600px) {
+            h1 { font-size: 1.7rem; }
+            body { padding: 20px 16px; }
+        }
+
+        /* 富饶大陆标签样式 (独立卡片) */
+        .rich-tag {
+            margin: 0 auto 35px auto;
+            max-width: 100%;
+            background: #fff5e8;
+            border-radius: 48px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+        .tag-header {
+            background: #dba570;
+            color: white;
+            padding: 16px 28px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 1.2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background 0.2s;
+        }
+        .tag-header:hover {
+            background: #c48b5a;
+        }
+        .tag-header .arrow {
+            font-size: 1.2rem;
+            transition: transform 0.3s;
+        }
+        .tag-header.open .arrow {
+            transform: rotate(180deg);
+        }
+        .tag-content {
+            max-height: 0;
+            padding: 0 24px;
+            overflow: hidden;
+            transition: max-height 0.4s ease-out, padding 0.3s;
+            background: #fef7ef;
+        }
+        .tag-content.open {
+            max-height: 500px;
+            padding: 24px 28px;
+        }
+        .tag-content ul {
+            list-style: none;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px,1fr));
+            gap: 14px;
+        }
+        .tag-content li {
+            padding: 10px 16px;
+            background: #fff0e2;
+            border-radius: 40px;
+            font-weight: 500;
+            color: #5e3f2c;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 1rem;
+        }
+        .tag-content li span:first-child {
+            font-size: 1.3rem;
+        }
+
+        /* 通用卡片样式 */
+        .choice-area, .record-area, .summary-area, .reality-tag {
+            background: white;
+            border-radius: 48px;
+            padding: 32px 30px;
+            box-shadow: 0 20px 30px rgba(0,0,0,0.05);
+            border: 1px solid #f0dccb;
+            margin-bottom: 35px;
+            width: 100%;
+        }
+
+        /* 选择区布局 */
+        .category {
+            margin-bottom: 32px;
+            border-bottom: 2px dashed #e5cfba;
+            padding-bottom: 28px;
+        }
+        .category:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+        .cat-title {
+            font-size: 1.9rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 20px;
+            color: #4d3e30;
+        }
+        .cat-title span {
+            background: #e2d0bf;
+            border-radius: 40px;
+            padding: 5px 20px;
+            font-size: 1rem;
+            color: #2d3e4f;
+        }
+        .option-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+        .option-btn {
+            background: #f4ede5;
+            border: 2px solid #d9c3b1;
+            border-radius: 60px;
+            padding: 14px 22px;
+            font-size: 1rem;
+            font-weight: 600;
+            color: #3b4b57;
+            cursor: pointer;
+            transition: 0.2s;
+            flex: 1 1 210px;
+            text-align: left;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            position: relative;
+        }
+        .option-btn:hover {
+            background: #e4d4c2;
+            border-color: #b19174;
+            transform: translateY(-2px);
+        }
+        .option-btn.selected {
+            background: #cfb7a2;
+            border-color: #8e6e53;
+            color: #2d2d2d;
+            box-shadow: 0 8px 14px rgba(150, 90, 50, 0.2);
+        }
+        .option-btn .emoji {
+            font-size: 1.7rem;
+        }
+        .price-cny {
+            font-size: 0.85rem;
+            color: #aa6d4b;
+            margin-left: 5px;
+            font-weight: normal;
+        }
+        .price-note {
+            font-size: 0.75rem;
+            color: #7f6b5c;
+            margin-left: 6px;
+            font-weight: normal;
+        }
+        .choice-info {
+            margin-top: 20px;
+            margin-bottom: 0;
+            color: #7b6b5c;
+            background: #faf5ef;
+            padding: 12px 20px;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            text-align: center;
+        }
+
+        /* 行程记录区域 */
+        .record-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 3px solid #e2cab6;
+            padding-bottom: 18px;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+        }
+        .record-header h2 {
+            font-size: 2rem;
+            color: #5a4433;
+        }
+        .clear-btn {
+            background: #f0dbcd;
+            border: none;
+            border-radius: 40px;
+            padding: 8px 26px;
+            font-size: 1rem;
+            font-weight: 600;
+            color: #3d2e1f;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .clear-btn:hover {
+            background: #e2c6b2;
+        }
+        .log-list {
+            list-style: none;
+            max-height: 520px;
+            overflow-y: auto;
+            padding-right: 6px;
+            margin-bottom: 5px;
+        }
+        .log-item {
+            background: #fefaf5;
+            border-left: 7px solid #c98960;
+            border-radius: 28px;
+            padding: 18px 20px;
+            margin-bottom: 18px;
+            font-size: 0.98rem;
+            display: flex;
+            gap: 18px;
+            align-items: flex-start;
+            position: relative;
+            transition: 0.1s;
+        }
+        .log-img {
+            width: 80px;
+            height: 80px;
+            border-radius: 24px;
+            object-fit: cover;
+            background: #cdb9a8;
+            flex-shrink: 0;
+            border: 2px solid #bb9c84;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .log-img:hover {
+            opacity: 0.9;
+            transform: scale(1.02);
+        }
+        .log-content {
+            flex: 1;
+        }
+        .log-content strong {
+            color: #7f4f32;
+            display: block;
+            margin-bottom: 8px;
+            font-size: 1.1rem;
+        }
+        .log-data {
+            background: #f1e7de;
+            border-radius: 20px;
+            padding: 8px 16px;
+            margin-top: 10px;
+            color: #1f5f6e;
+            font-weight: 500;
+            font-size: 0.9rem;
+            border-left: 4px solid #b07c5a;
+        }
+        .delete-log {
+            position: absolute;
+            top: 14px;
+            right: 18px;
+            background: #f5e4d9;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #b1624b;
+            width: 34px;
+            height: 34px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: 0.2s;
+            line-height: 1;
+        }
+        .delete-log:hover {
+            background: #e2c2b0;
+            color: #8e3e2c;
+        }
+        .empty-log {
+            color: #93897e;
+            text-align: center;
+            padding: 55px 20px;
+            font-style: italic;
+            font-size: 1rem;
+        }
+
+        /* 总结区域 */
+        .summary-area {
+            background: white;
+        }
+        .summary-card-left {
+            background: #e7f0f3;
+            border-radius: 40px;
+            padding: 28px 30px;
+            border: 2px solid #9bb6c5;
+            margin-top: 25px;
+            display: none;
+        }
+        .summary-card-left.visible {
+            display: block;
+        }
+        .summary-title-left {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #1f4a5c;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #7f9aa8;
+            padding-bottom: 8px;
+        }
+        .trip-days-left {
+            background: #e0cdbc;
+            border-radius: 40px;
+            padding: 12px 20px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #2d4e4e;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .cost-breakdown-left {
+            background: #dae6ec;
+            border-radius: 28px;
+            padding: 18px 24px;
+            margin: 10px 0 20px;
+            font-size: 1.1rem;
+        }
+        .cost-breakdown-left div {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px dashed #96b0bb;
+        }
+        .cost-breakdown-left div:last-child {
+            border-bottom: none;
+            font-weight: 700;
+            color: #b1624b;
+        }
+        .total-cost-left {
+            font-size: 2rem;
+            font-weight: 800;
+            color: #b1624b;
+            margin: 15px 0 25px;
+            text-align: right;
+        }
+        .summary-item-left {
+            margin-bottom: 24px;
+        }
+        .summary-item-left strong {
+            font-size: 1.3rem;
+            color: #2b5e6b;
+            display: block;
+            margin-bottom: 12px;
+        }
+        .summary-item-left ul {
+            list-style-position: inside;
+            color: #234a57;
+            font-size: 0.98rem;
+            line-height: 1.65;
+            background: #f0f7fa;
+            padding: 16px 24px;
+            border-radius: 28px;
+        }
+        .submit-btn-left {
+            background: #4d6a78;
+            color: white;
+            border: none;
+            border-radius: 60px;
+            padding: 16px 28px;
+            font-size: 1.3rem;
+            font-weight: 700;
+            width: 100%;
+            cursor: pointer;
+            transition: 0.2s;
+            letter-spacing: 1px;
+            box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+            margin-bottom: 10px;
+        }
+        .submit-btn-left:hover {
+            background: #36515e;
+        }
+        .footnote-warning {
+            margin-top: 18px;
+            font-style: italic;
+            color: #5b6b7a;
+            background: #fdf6ed;
+            padding: 12px 18px;
+            border-radius: 32px;
+            font-size: 0.85rem;
+        }
+
+        /* 现实中的非洲标签卡片 (最终板块) */
+        .reality-tag {
+            background: #dde3e6;
+            overflow: hidden;
+            padding: 0;
+            margin-bottom: 30px;
+        }
+        .reality-header {
+            background: #4d6a78;
+            color: white;
+            padding: 16px 28px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 1.2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background 0.2s;
+        }
+        .reality-header:hover {
+            background: #3a555f;
+        }
+        .reality-header .arrow {
+            font-size: 1.2rem;
+            transition: transform 0.3s;
+        }
+        .reality-header.open .arrow {
+            transform: rotate(180deg);
+        }
+        .reality-content {
+            max-height: 0;
+            padding: 0 24px;
+            overflow: hidden;
+            transition: max-height 0.4s ease-out, padding 0.3s;
+            background: #edf2f4;
+        }
+        .reality-content.open {
+            max-height: 550px;
+            padding: 28px 28px;
+        }
+        .reality-content ul {
+            list-style: none;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px,1fr));
+            gap: 14px;
+        }
+        .reality-content li {
+            padding: 10px 16px;
+            background: #ffffffc9;
+            border-radius: 40px;
+            font-weight: 500;
+            color: #2c4f5e;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.98rem;
+        }
+        .footer-note {
+            margin-top: 20px;
+            text-align: center;
+            color: #68747e;
+            font-size: 0.85rem;
+            border-top: 1px solid #d0bcab;
+            padding-top: 22px;
+        }
+
+        /* 悬浮提示框样式 */
+        .option-tooltip {
+            position: fixed;
+            background: #2c3e2fdf;
+            background: linear-gradient(135deg, #1f3e3c, #2c4f4b);
+            color: #fef6e0;
+            padding: 14px 20px;
+            border-radius: 28px;
+            font-size: 0.9rem;
+            max-width: 360px;
+            width: max-content;
+            box-shadow: 0 12px 28px rgba(0,0,0,0.3);
+            z-index: 10000;
+            backdrop-filter: blur(6px);
+            border: 1px solid #e0b48c;
+            pointer-events: none;
+            line-height: 1.45;
+            transition: opacity 0.12s;
+            font-weight: 500;
+        }
+        .option-tooltip strong {
+            color: #ffcf9a;
+            display: block;
+            margin-bottom: 6px;
+            font-size: 1rem;
+        }
+        .option-tooltip hr {
+            margin: 8px 0;
+            border-color: #e0b48c60;
+        }
+        .tooltip-desc {
+            margin-bottom: 8px;
+        }
+        .tooltip-data {
+            background: #00000030;
+            padding: 6px 10px;
+            border-radius: 20px;
+            margin-top: 6px;
+            font-size: 0.85rem;
+            border-left: 3px solid #f3b27a;
+        }
+        @media (max-width: 700px) {
+            .option-tooltip {
+                max-width: 280px;
+                font-size: 0.8rem;
+                padding: 10px 14px;
+            }
+        }
+
+        /* 模态框 */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.92);
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+        .modal img {
+            max-width: 90%;
+            max-height: 80%;
+            object-fit: contain;
+            border-radius: 24px;
+            border: 3px solid white;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+        }
+        .modal-close {
+            position: absolute;
+            top: 25px;
+            right: 35px;
+            color: white;
+            font-size: 44px;
+            font-weight: bold;
+            cursor: pointer;
+            background: rgba(0,0,0,0.5);
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .modal-close:hover {
+            background: rgba(255,255,255,0.3);
+        }
+        .modal-caption {
+            color: white;
+            margin-top: 20px;
+            font-size: 1.1rem;
+            background: rgba(0,0,0,0.6);
+            padding: 8px 28px;
+            border-radius: 60px;
+        }
+        @media (max-width: 750px) {
+            .choice-area, .record-area, .summary-area { padding: 24px 20px; }
+            .cat-title { font-size: 1.6rem; }
+            .option-btn { padding: 12px 16px; flex: 1 1 100%; }
+            .log-img { width: 65px; height: 65px; }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <header>
+        <h1>🦒 欢迎来到富饶的非洲看动物大迁徙</h1>
+    </header>
+
+    <!-- 1. 富饶大陆 · 资源数据折叠卡片 -->
+    <div class="rich-tag" id="richTag">
+        <div class="tag-header" id="richHeader">
+            <span>🌟 富饶大陆 · 点击展开资源数据</span>
+            <span class="arrow">▼</span>
+        </div>
+        <div class="tag-content" id="richContent">
+            <ul>
+                <li><span>👥</span> 劳动力：青年占全球超25%，增速最快。</li>
+                <li><span>⛏️</span> 矿产资源：占全球关键矿产储量约30%</li>
+                <li><span>🌾</span> 可耕地资源：未耕种地占全球近60%</li>
+                <li><span>🍫</span> 农产品：可可、咖啡等出口占全球重要份额</li>
+                <li><span>🦒</span> 动植物：大型野生动物种类数量居世界之冠</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- 2. 选择区 (交通/住宿/餐饮/医疗) -->
+    <div class="choice-area">
+        <!-- 交通 -->
+        <div class="category">
+            <div class="cat-title"><span>🚌</span> 交通</div>
+            <div class="option-group" id="group-transport">
+                <button class="option-btn" data-cat="transport" data-key="bus">
+                    <span class="emoji">🚍</span> 长途巴士 · $18/天 <span class="price-cny">(≈¥130)</span>
+                    <span class="price-note">单程$15-20</span>
+                </button>
+                <button class="option-btn" data-cat="transport" data-key="car">
+                    <span class="emoji">🚙</span> 自驾租车 · $60/天 <span class="price-cny">(≈¥432)</span>
+                    <span class="price-note">不含油费</span>
+                </button>
+                <button class="option-btn" data-cat="transport" data-key="flight">
+                    <span class="emoji">✈️</span> 小型飞机 · $300/段 <span class="price-cny">(≈¥2,160)</span>
+                    <span class="price-note">2段往返</span>
+                </button>
+            </div>
+        </div>
+        <!-- 住宿 -->
+        <div class="category">
+            <div class="cat-title"><span>🏕️</span> 住宿</div>
+            <div class="option-group" id="group-lodging">
+                <button class="option-btn" data-cat="lodging" data-key="camping">
+                    <span class="emoji">⛺</span> 露营地 · $15/晚 <span class="price-cny">(≈¥108)</span>
+                    <span class="price-note">角马营地</span>
+                </button>
+                <button class="option-btn" data-cat="lodging" data-key="homestay">
+                    <span class="emoji">🏚️</span> 民宿/青旅 · $25/晚 <span class="price-cny">(≈¥180)</span>
+                    <span class="price-note">含基础早餐</span>
+                </button>
+                <button class="option-btn" data-cat="lodging" data-key="lodge">
+                    <span class="emoji">🏨</span> 野奢营地 · $200/晚 <span class="price-cny">(≈¥1,440)</span>
+                    <span class="price-note">含三餐游猎</span>
+                </button>
+            </div>
+        </div>
+        <!-- 餐饮 -->
+        <div class="category">
+            <div class="cat-title"><span>🍲</span> 餐饮</div>
+            <div class="option-group" id="group-food">
+                <button class="option-btn" data-cat="food" data-key="market">
+                    <span class="emoji">🏪</span> 市场自炊 · $8/天 <span class="price-cny">(≈¥58)</span>
+                    <span class="price-note">当地食材</span>
+                </button>
+                <button class="option-btn" data-cat="food" data-key="restaurant">
+                    <span class="emoji">🍽️</span> 当地餐厅 · $20/天 <span class="price-cny">(≈¥144)</span>
+                    <span class="price-note">普通正餐</span>
+                </button>
+                <button class="option-btn" data-cat="food" data-key="allinclusive">
+                    <span class="emoji">🍱</span> 营地全包 · $60/天 <span class="price-cny">(≈¥432)</span>
+                    <span class="price-note">三餐+茶点</span>
+                </button>
+            </div>
+        </div>
+        <!-- 医疗 -->
+        <div class="category">
+            <div class="cat-title"><span>🏥</span> 医疗 · 疟疾</div>
+            <div class="option-group" id="group-medical">
+                <button class="option-btn" data-cat="medical" data-key="selfcare">
+                    <span class="emoji">🧴</span> 自救/无医 · $0 <span class="price-cny">(¥0)</span>
+                </button>
+                <button class="option-btn" data-cat="medical" data-key="clinic">
+                    <span class="emoji">💊</span> 当地诊所 · $30/次 <span class="price-cny">(≈¥216)</span>
+                </button>
+                <button class="option-btn" data-cat="medical" data-key="hospital">
+                    <span class="emoji">🏨</span> 城市医院 · $150/次 <span class="price-cny">(≈¥1,080)</span>
+                </button>
+            </div>
+        </div>
+        <div class="choice-info">
+            💡 点击选项，真实图片与数据将出现在下方「📋 出行记录」中。<strong>✨ 鼠标悬停在任意选项上，即可预览该选项的详细介绍（描述+真实数据）</strong>，移开鼠标后自动消失。
+        </div>
+    </div>
+
+    <!-- 3. 行程记录区 (出行记录) -->
+    <div class="record-area">
+        <div class="record-header">
+            <h2>📋 出行记录</h2>
+            <button class="clear-btn" id="clearLogBtn">🗑️ 清空全部</button>
+        </div>
+        <ul class="log-list" id="logList">
+            <li class="empty-log">点击左侧选项，开始你的非洲旅行选择……</li>
+        </ul>
+    </div>
+
+    <!-- 4. 总结区域 (包含生成总结按钮+详细总结卡片) -->
+    <div class="summary-area">
+        <button class="submit-btn-left" id="submitSummaryBtnLeft">✅ 完成选择 · 生成5天Safari总结</button>
+        <div class="summary-card-left" id="summaryCardLeft">
+            <div class="summary-title-left">🧾 你的Safari旅行总结</div>
+            <div class="trip-days-left">🦒 行程天数：5天4晚 (典型动物大迁徙Safari)</div>
+            <div class="cost-breakdown-left" id="costBreakdownLeft">
+                <div><span>交通</span> <span id="transportCostLeft">$0</span></div>
+                <div><span>住宿 (4晚)</span> <span id="lodgingCostLeft">$0</span></div>
+                <div><span>餐饮 (5天)</span> <span id="foodCostLeft">$0</span></div>
+                <div><span>总计</span> <span id="totalCostLeft">$0</span></div>
+            </div>
+            <div class="summary-item-left">
+                <strong>⚠️ 沿途将遭遇的困难</strong>
+                <ul id="problemsListLeft">
+                    <li>请先完成所有选择</li>
+                </ul>
+            </div>
+            <div class="summary-item-left">
+                <strong>💡 注意事项</strong>
+                <ul id="tipsListLeft">
+                    <li>——</li>
+                </ul>
+            </div>
+            <div class="footnote-warning">
+                ※ 由于基础设施薄弱，实际行程可能因道路中断、停电、物资短缺而延长1-2天，增加额外开销与风险。
+            </div>
+        </div>
+    </div>
+
+    <!-- 5. 现实中的非洲 · 挑战数据折叠卡片 -->
+    <div class="reality-tag" id="realityTag">
+        <div class="reality-header" id="realityHeader">
+            <span>📉 现实中的非洲 · 点击展开挑战数据</span>
+            <span class="arrow">▼</span>
+        </div>
+        <div class="reality-content" id="realityContent">
+            <ul>
+                <li><span>⚡</span> 电：超6亿人无电，占全球3/4。</li>
+                <li><span>🛣️</span> 道路：运输成本为全球平均2-3倍。</li>
+                <li><span>💧</span> 水：灌溉面积占比仅1.5%（全球7.3%）。</li>
+                <li><span>🏥</span> 医疗：每万人仅2名医生（世卫标准2.5人）。</li>
+                <li><span>🍚</span> 粮食：饥饿人口比例超20%（3.07亿人）。</li>
+                <li><span>💼</span> 就业：非正式就业占比约85%，青年失业严重。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="footer-note">
+        🌍 数据来源：国际道路联合会(IRF)、世界银行、WHO、联合国粮农组织、非洲开发银行 · 汇率1美元≈7.2人民币 · 图片均为实拍素材
+    </div>
+</div>
+
+<!-- 图片放大模态框 -->
+<div class="modal" id="imageModal" onclick="closeModal(event)">
+    <span class="modal-close" onclick="closeModal(event)">&times;</span>
+    <img id="modalImg" src="" alt="放大图片">
+    <div class="modal-caption" id="modalCaption"></div>
+</div>
+
+<script>
+    (function() {
+        // 折叠展开逻辑：富饶大陆 + 现实非洲
+        const richHeader = document.getElementById('richHeader');
+        const richContent = document.getElementById('richContent');
+        richHeader.addEventListener('click', () => {
+            richHeader.classList.toggle('open');
+            richContent.classList.toggle('open');
+        });
+        const realityHeader = document.getElementById('realityHeader');
+        const realityContent = document.getElementById('realityContent');
+        realityHeader.addEventListener('click', () => {
+            realityHeader.classList.toggle('open');
+            realityContent.classList.toggle('open');
+        });
+
+        const USD_TO_CNY = 7.2;
+        // 图片映射
+        const imageMap = {
+            transport_bus: '长途巴士.jpg',
+            transport_car: '自驾租车.jpg',
+            transport_flight: '小型飞机.jpg',
+            lodging_camping: '露营地.jpg',
+            lodging_homestay: '民宿.jpg',
+            lodging_lodge: '野奢营地.jpg',
+            food_market: '市场自炊.jpg',
+            food_restaurant: '当地餐厅.jpg',
+            food_allinclusive: '营地全包.jpg',
+            medical_selfcare: '自救.jpg',
+            medical_clinic: '当地诊所.jpg',
+            medical_hospital: '城市医院.jpg'
+        };
+
+        const dataMap = {
+            transport: {
+                bus: { price: 18, desc: '🚍 长途巴士 · 约$18/天，内罗毕到马赛马拉单程票价$15-20。', data: '🛣️ 非洲平均道路铺砌率仅17.4%，撒哈拉以南非洲超过70%道路未铺砌。雨季时，土路变成泥沼，巴士经常停运数天。', imgKey: 'transport_bus', tips: '雨季出行风险极高；随身带足水、干粮；选择正规巴士公司；保管好财物。' },
+                car: { price: 60, desc: '🚙 自驾租车 · $60/天起，不含油费，坦桑尼亚北部租车参考价。', data: '🛣️ 非洲公路密度每百平方公里仅34公里（全球平均180公里）。加油站稀少，有时相隔200公里才有加油站。', imgKey: 'transport_car', tips: '必须租卫星电话；下载离线地图；见加油站必加满；备足备用油；避开雨季。' },
+                flight: { price: 300, desc: '✈️ 小型飞机 · 每段约$300，仅限草原内部短途飞行，2段共$600。', data: '🛣️ 非洲仅20%机场全天候运营。航班常因天气、机械故障取消，取消后下一班可能在一周后。', imgKey: 'transport_flight', tips: '提前3天确认航班；行李限重20kg；备好应急方案；购买航班延误险。' }
+            },
+            lodging: {
+                camping: { price: 15, desc: '⛺ 露营地 · $15/晚，角马营地露营地，需自带帐篷或租用。', data: '⚡ 撒哈拉以南非洲仅48%人口能用上电，约5.8亿人无电。露营地通常无供电，手机充电需到附近小镇。', imgKey: 'lodging_camping', tips: '租用帐篷需额外付费；防蚊喷雾必带；夜间有野生动物出没；携带充电宝和头灯。' },
+                homestay: { price: 25, desc: '🏚️ 民宿/青旅 · $25/晚，含基础早餐，马赛村社区旅舍。', data: '💧 非洲超过3亿人缺乏清洁饮用水，约7.8亿人缺乏基本卫生设施。民宿常无自来水，需从远处取水。', imgKey: 'lodging_homestay', tips: '自带睡袋、净水片；尊重部落习惯；可参与社区活动；备好防蚊用品。' },
+                lodge: { price: 200, desc: '🏨 野奢营地 · $200/晚，含三餐及游猎活动，发电机限时供电。', data: '⚡ 即使高端营地也面临供电不稳问题。发电机通常只在晚6-10点供电，白天无电。用水需从远处运来。', imgKey: 'lodging_lodge', tips: '携带充电宝；蓄水备用；夜间注意野生动物；提前预订；确认发电机时间。' }
+            },
+            food: {
+                market: { price: 8, desc: '🏪 市场自炊 · $8/天，当地食材：蔬菜、水果、主食。', data: '🍚 西非和中非约5500万人面临危机级饥饿，15,000名尼日利亚人处于灾难性饥饿状态。市场食材价格波动大，旱季可能买不到蔬菜。', imgKey: 'food_market', tips: '清晨购买当天食材；彻底加热；不买已切开的果蔬；备好肠胃药。' },
+                restaurant: { price: 20, desc: '🍽️ 当地餐厅 · $20/天，普通正餐，卫生状况参差不齐。', data: '🍚 非洲每年约9100万人因食物不安全患病，21%人口营养不良。餐厅卫生监管缺失，食物中毒风险高。', imgKey: 'food_restaurant', tips: '只吃彻底煮熟食物；避免生水冰块；备强效肠胃药；选择人多餐厅。' },
+                allinclusive: { price: 60, desc: '🍱 营地全包 · $60/天，三餐+茶点，高端Safari标配。', data: '🍚 尽管营地内食物充足，但营地外就是粮食短缺地区。当地人的主食玉米粉价格在过去一年上涨30%。', imgKey: 'food_allinclusive', tips: '提前告知饮食禁忌；可要求打包午餐盒；珍惜食物，减少浪费。' }
+            },
+            medical: {
+                selfcare: { price: 0, desc: '🧴 依靠自带药品+祈祷 · 无专业治疗，风险极高', data: '🏥 全球约2.82亿疟疾病例，61万人死亡，非洲占94%。每30秒就有1名非洲儿童死于疟疾。轻症疟疾治疗费仅需$4-31，但许多人因无钱治疗而丧命。', imgKey: 'medical_selfcare', tips: '绝对不要依赖自救！疟疾可致命；出发前备好青蒿素类药物；购买包含疟疾治疗的保险。' },
+                clinic: { price: 30, desc: '💊 当地诊所 · $30/次，仅有基础药品，但可能缺货', data: '🏥 非洲进口80%药品，药价昂贵。乌干达药房ACT类抗疟药$1.4-2.4，但诊所常断货。轻症疟疾治疗费$4-31，但诊所多收3倍。诊所医生密度仅0.3/千人。', imgKey: 'medical_clinic', tips: '自带常用药(青蒿素、抗生素)；确认诊所是否有药；记下中国援非医疗队电话。' },
+                hospital: { price: 150, desc: '🏨 城市医院 · $150/次，医疗水平尚可，但重症仍需转院', data: '🏥 儿童重症疟疾治疗费：乌干达$27，肯尼亚$165（中位$90）。非洲重症疟疾家庭自付费用$13-245，超月收入10%。城市医院排长队，重症疟疾死亡率仍高达15%。', imgKey: 'medical_hospital', tips: '提前查询最近医院坐标；备足现金；疟疾高发季床位紧张；购买医疗保险。' }
+            }
+        };
+
+        // ---------- 悬浮提示框逻辑 ----------
+        let tooltipDiv = null;
+        function createTooltip() {
+            if (tooltipDiv) return tooltipDiv;
+            const div = document.createElement('div');
+            div.className = 'option-tooltip';
+            div.style.display = 'none';
+            document.body.appendChild(div);
+            tooltipDiv = div;
+            return div;
+        }
+
+        function getOptionDetail(cat, key) {
+            const item = dataMap[cat]?.[key];
+            if (!item) return null;
+            return {
+                desc: item.desc,
+                data: item.data
+            };
+        }
+
+        function showTooltip(event, cat, key) {
+            const detail = getOptionDetail(cat, key);
+            if (!detail) return;
+            const tooltip = createTooltip();
+            // 构建显示内容：与出行记录中的介绍风格一致（描述 + 数据）
+            tooltip.innerHTML = `<strong>🔍 详细介绍</strong><div class="tooltip-desc">${detail.desc}</div><div class="tooltip-data">📊 ${detail.data}</div>`;
+            tooltip.style.display = 'block';
+            // 定位在鼠标附近 (偏移10px)
+            let left = event.clientX + 15;
+            let top = event.clientY + 15;
+            const tooltipRect = tooltip.getBoundingClientRect();
+            // 边界检测，防止超出视口
+            if (left + tooltipRect.width > window.innerWidth - 10) {
+                left = event.clientX - tooltipRect.width - 10;
+            }
+            if (top + tooltipRect.height > window.innerHeight - 10) {
+                top = event.clientY - tooltipRect.height - 10;
+            }
+            tooltip.style.left = left + 'px';
+            tooltip.style.top = top + 'px';
+        }
+
+        function hideTooltip() {
+            if (tooltipDiv) {
+                tooltipDiv.style.display = 'none';
+            }
+        }
+
+        // 为所有选项按钮添加悬浮监听
+        function bindHoverToOptions() {
+            const btns = document.querySelectorAll('.option-btn');
+            btns.forEach(btn => {
+                btn.addEventListener('mouseenter', (e) => {
+                    const cat = btn.dataset.cat;
+                    const key = btn.dataset.key;
+                    if (cat && key) {
+                        showTooltip(e, cat, key);
+                    }
+                });
+                btn.addEventListener('mouseleave', () => {
+                    hideTooltip();
+                });
+                // 移动端触摸时为了避免tooltip残留，触摸时也隐藏（保留点击原有效果）
+                btn.addEventListener('touchstart', () => {
+                    hideTooltip();
+                });
+            });
+        }
+
+        // 原有的日志记录逻辑 (保持不变)
+        let selectedOptions = { transport: null, lodging: null, food: null, medical: null };
+        const logList = document.getElementById('logList');
+        const clearBtn = document.getElementById('clearLogBtn');
+        const submitBtnLeft = document.getElementById('submitSummaryBtnLeft');
+        const summaryCardLeft = document.getElementById('summaryCardLeft');
+        const transportCostSpan = document.getElementById('transportCostLeft');
+        const lodgingCostSpan = document.getElementById('lodgingCostLeft');
+        const foodCostSpan = document.getElementById('foodCostLeft');
+        const totalCostSpan = document.getElementById('totalCostLeft');
+        const problemsListLeft = document.getElementById('problemsListLeft');
+        const tipsListLeft = document.getElementById('tipsListLeft');
+        const modal = document.getElementById('imageModal');
+        const modalImg = document.getElementById('modalImg');
+        const modalCaption = document.getElementById('modalCaption');
+        window.openModal = (src, cap) => { modal.style.display = 'flex'; modalImg.src = src; modalCaption.textContent = cap; };
+        window.closeModal = (e) => { if (e.target === modal || e.target.classList.contains('modal-close')) modal.style.display = 'none'; };
+        document.addEventListener('keydown', e => { if (e.key === 'Escape' && modal.style.display === 'flex') modal.style.display = 'none'; });
+
+        function removeExistingLogByCategory(cat) { const items = logList.querySelectorAll('.log-item'); for (let i of items) if (i.dataset.category === cat) { i.remove(); break; } }
+        function clearAllSelectedStyles() { document.querySelectorAll('.option-btn').forEach(b => b.classList.remove('selected')); }
+        function resetAllSelections() { selectedOptions = { transport: null, lodging: null, food: null, medical: null }; clearAllSelectedStyles(); }
+        function clearLog(keepEmpty=true) {
+            logList.innerHTML = '';
+            if(keepEmpty) { const empty = document.createElement('li'); empty.className='empty-log'; empty.innerText='点击左侧选项，开始你的非洲旅行选择……'; logList.appendChild(empty); }
+            resetAllSelections(); summaryCardLeft.classList.remove('visible');
+        }
+        function addLog(catKey, optKey) {
+            const catMap = { transport:'交通', lodging:'住宿', food:'餐饮', medical:'医疗' };
+            const catName = catMap[catKey];
+            const item = dataMap[catKey]?.[optKey]; if(!item) return;
+            removeExistingLogByCategory(catKey);
+            if(logList.children.length===1 && logList.children[0].classList.contains('empty-log')) logList.innerHTML='';
+            const newItem = document.createElement('li'); newItem.className='log-item'; newItem.dataset.category=catKey; newItem.dataset.option=optKey;
+            const img = document.createElement('img'); img.className='log-img';
+            const rawImg = imageMap[item.imgKey];
+            const imgSrc = rawImg ? encodeURI(rawImg) : 'https://via.placeholder.com/80x80?text=No+Image';
+            img.src = imgSrc; img.alt=catName;
+            img.onerror=function(){ this.src='https://via.placeholder.com/80x80?text=Image+Missing'; };
+            img.addEventListener('click', (e) => { e.stopPropagation(); openModal(imgSrc, `${catName} · ${optKey === 'bus' ? '长途巴士' : optKey === 'car' ? '自驾租车' : optKey === 'flight' ? '小型飞机' : optKey === 'camping' ? '露营地' : optKey === 'homestay' ? '民宿' : optKey === 'lodge' ? '野奢营地' : optKey === 'market' ? '市场自炊' : optKey === 'restaurant' ? '当地餐厅' : optKey === 'allinclusive' ? '营地全包' : optKey === 'selfcare' ? '自救' : optKey === 'clinic' ? '当地诊所' : '城市医院'}`); });
+            const contentDiv = document.createElement('div'); contentDiv.className='log-content';
+            contentDiv.innerHTML = `<strong>${catName} · 你选择了：</strong><span style="display:block; margin-bottom:6px;">${item.desc}</span><div class="log-data">📊 ${item.data}</div>`;
+            const delBtn = document.createElement('button'); delBtn.className='delete-log'; delBtn.innerHTML='✕';
+            delBtn.addEventListener('click', (e) => {
+                e.stopPropagation(); newItem.remove();
+                if(selectedOptions[catKey]===optKey) { selectedOptions[catKey]=null; document.querySelectorAll(`.option-btn[data-cat="${catKey}"]`).forEach(b=>b.classList.remove('selected')); }
+                if(logList.children.length===0){ const empty=document.createElement('li'); empty.className='empty-log'; empty.innerText='点击左侧选项，开始你的非洲旅行选择……'; logList.appendChild(empty); }
+                summaryCardLeft.classList.remove('visible');
+            });
+            newItem.appendChild(img); newItem.appendChild(contentDiv); newItem.appendChild(delBtn); logList.appendChild(newItem); logList.scrollTop=logList.scrollHeight;
+        }
+
+        document.querySelectorAll('.option-btn').forEach(btn=>{
+            btn.addEventListener('click',()=>{
+                const cat=btn.dataset.cat, key=btn.dataset.key; if(!cat||!key) return;
+                const parent=btn.closest('.option-group'); if(parent) parent.querySelectorAll('.option-btn').forEach(b=>b.classList.remove('selected'));
+                btn.classList.add('selected'); selectedOptions[cat]=key; addLog(cat,key); summaryCardLeft.classList.remove('visible');
+                hideTooltip(); // 点击后隐藏可能残留的tooltip
+            });
+        });
+        clearBtn.addEventListener('click',()=>clearLog(true));
+        submitBtnLeft.addEventListener('click',()=>{
+            const cats=['transport','lodging','food','medical']; const missing=cats.filter(c=>!selectedOptions[c]);
+            if(missing.length){ alert(`请先完成所有维度的选择：${missing.map(c=>c==='transport'?'交通':c==='lodging'?'住宿':c==='food'?'餐饮':'医疗').join('、')}`); return; }
+            const days=5,nights=4;
+            const tItem=dataMap.transport[selectedOptions.transport], lItem=dataMap.lodging[selectedOptions.lodging], fItem=dataMap.food[selectedOptions.food], mItem=dataMap.medical[selectedOptions.medical];
+            let tTotal = selectedOptions.transport==='flight' ? tItem.price*2 : tItem.price*days;
+            const lTotal=lItem.price*nights, fTotal=fItem.price*days, totalUSD=tTotal+lTotal+fTotal, totalCNY=totalUSD*USD_TO_CNY;
+            transportCostSpan.innerText = selectedOptions.transport==='flight' ? `$${tTotal} (2段)` : `$${tTotal} ($${tItem.price}/天 × ${days})`;
+            lodgingCostSpan.innerText = `$${lTotal} ($${lItem.price}/晚 × ${nights})`;
+            foodCostSpan.innerText = `$${fTotal} ($${fItem.price}/天 × ${days})`;
+            totalCostSpan.innerText = `$${totalUSD} (≈¥${Math.round(totalCNY)})`;
+            const problems = [`交通：${tItem.desc.split('·')[1]?.trim()||tItem.desc}`,`住宿：${lItem.desc.split('·')[1]?.trim()||lItem.desc}`,`餐饮：${fItem.desc.split('·')[1]?.trim()||fItem.desc}`,`医疗：${mItem.desc.split('·')[1]?.trim()||mItem.desc}`];
+            problemsListLeft.innerHTML=''; problems.forEach(p=>{const li=document.createElement('li'); li.innerText=p; problemsListLeft.appendChild(li);});
+            const tips=[tItem.tips,lItem.tips,fItem.tips,mItem.tips,'⚠️ 肯尼亚仅2026年1月就有398人死于交通事故，854起事故。','⚠️ 停电频繁，所有电子设备需额外携带充电宝和太阳能板。','⚠️ 医疗应急响应极慢，最近有资质的医院可能距离6小时车程。','⚠️ 雨季道路中断风险高，建议预留2-3天缓冲时间。'];
+            tipsListLeft.innerHTML=''; tips.forEach(t=>{const li=document.createElement('li'); li.innerText=t; tipsListLeft.appendChild(li);});
+            summaryCardLeft.classList.add('visible');
+        });
+        clearLog(true);
+        bindHoverToOptions();  // 启动悬浮展示功能
+    })();
+</script>
+</body>
+</html>
